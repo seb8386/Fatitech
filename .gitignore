@@ -1,0 +1,21 @@
+# Dépendances & Builds
+node_modules/
+.next/
+out/
+build/
+dist/
+*.tsbuildinfo
+
+# Environnement & Logs
+.env
+.env.local
+.env.production
+.env*.local
+*.log
+
+# Fichiers médias / Uploads lourds
+public/uploads/*
+!public/uploads/.gitkeep
+*.zip
+*.mp4
+*.mov
