@@ -1,3 +1,4 @@
+require('dotenv').config({ path: '.env.local' }); // Force la lecture du fichier .env.local
 const { defineConfig } = require('drizzle-kit');
 
 module.exports = defineConfig({
@@ -5,6 +6,6 @@ module.exports = defineConfig({
   schema: './src/db/schema.ts', 
   out: './drizzle',
   dbCredentials: {
-    url: 'postgresql://postgres:fatroot@127.0.0.1:5432/Reseau_db',
+    url: process.env.DATABASE_URL, // 👈 Lit l'URL Neon depuis .env.local
   },
 });

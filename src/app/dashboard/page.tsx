@@ -122,24 +122,24 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6 space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 sm:p-6 space-y-6 sm:space-y-8 overflow-x-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white">
+          <h1 className="text-2xl sm:text-3xl font-black text-white">
             {greeting},{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">
               {user?.firstName ?? "Créateur"}
             </span>{" "}
             👋
           </h1>
-          <p className="text-slate-400 mt-1">
+          <p className="text-sm text-slate-400 mt-1">
             Voici le résumé de vos performances réelles aujourd&apos;hui
           </p>
         </div>
         <Link
           href="/dashboard/ai-assistant"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all w-full sm:w-auto shrink-0"
         >
           <Sparkles size={16} />
           Générer du contenu
@@ -147,7 +147,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         <StatCard
           title="Abonnés totaux"
           value={stats?.totalFollowers ?? 0}
@@ -196,17 +196,17 @@ export default function DashboardPage() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Growth Chart */}
-        <div className="xl:col-span-2 rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-6">
+        <div className="xl:col-span-2 rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6 min-w-0">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-bold text-white">Croissance des abonnés</h2>
-              <p className="text-sm text-slate-400">Évolution de vos comptes</p>
+              <h2 className="text-base sm:text-lg font-bold text-white">Croissance des abonnés</h2>
+              <p className="text-xs sm:text-sm text-slate-400">Évolution de vos comptes</p>
             </div>
-            <TrendingUp size={20} className="text-violet-400" />
+            <TrendingUp size={20} className="text-violet-400 shrink-0" />
           </div>
 
           {chartData.length === 0 ? (
-            <div className="h-56 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-xl p-6 text-center">
+            <div className="h-56 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-xl p-4 sm:p-6 text-center">
               <Eye size={36} className="text-slate-600 mb-2" />
               <p className="text-slate-400 text-sm">Aucune donnée d&apos;analytique disponible</p>
               <p className="text-xs text-slate-500 mt-1">Connectez votre compte TikTok pour synchroniser vos statistiques</p>
@@ -215,47 +215,49 @@ export default function DashboardPage() {
               </Link>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="gradFollowers" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 11 }} />
-                <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={formatNumber} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#1e293b",
-                    border: "1px solid #334155",
-                    borderRadius: "12px",
-                    color: "#f1f5f9",
-                  }}
-                  formatter={(v: unknown) => [formatNumber(typeof v === "number" ? v : 0), ""]}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="followers"
-                  stroke="#7c3aed"
-                  strokeWidth={2}
-                  fill="url(#gradFollowers)"
-                  name="Abonnés"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
+            <div className="w-full h-[220px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="gradFollowers" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.4} />
+                      <stop offset="95%" stopColor="#7c3aed" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
+                  <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} />
+                  <YAxis stroke="#64748b" tick={{ fontSize: 10 }} tickFormatter={formatNumber} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#1e293b",
+                      border: "1px solid #334155",
+                      borderRadius: "12px",
+                      color: "#f1f5f9",
+                    }}
+                    formatter={(v: unknown) => [formatNumber(typeof v === "number" ? v : 0), ""]}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="followers"
+                    stroke="#7c3aed"
+                    strokeWidth={2}
+                    fill="url(#gradFollowers)"
+                    name="Abonnés"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           )}
         </div>
 
         {/* Platform breakdown */}
-        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-6">
+        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-lg font-bold text-white">Par plateforme</h2>
-              <p className="text-sm text-slate-400">Comptes actifs</p>
+              <h2 className="text-base sm:text-lg font-bold text-white">Par plateforme</h2>
+              <p className="text-xs sm:text-sm text-slate-400">Comptes actifs</p>
             </div>
-            <Flame size={20} className="text-orange-400" />
+            <Flame size={20} className="text-orange-400 shrink-0" />
           </div>
 
           {platformData.length === 0 ? (
@@ -270,12 +272,14 @@ export default function DashboardPage() {
           ) : (
             <div className="space-y-3">
               {platformData.map((p) => (
-                <div key={p.id} className="flex items-center gap-3">
-                  <PlatformIcon platform={p.platform.toLowerCase()} size={32} />
+                <div key={p.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors">
+                  <div className="shrink-0">
+                    <PlatformIcon platform={p.platform.toLowerCase()} size={32} />
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-slate-300 font-medium">{p.accountName}</span>
-                      <span className="text-xs text-emerald-400 font-bold">Actif</span>
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span className="text-xs text-slate-300 font-medium truncate">{p.accountName}</span>
+                      <span className="text-[10px] text-emerald-400 font-bold ml-2 shrink-0">Actif</span>
                     </div>
                     <p className="text-xs text-slate-500">{formatNumber(p.followersCount ?? 0)} abonnés</p>
                   </div>
@@ -289,19 +293,19 @@ export default function DashboardPage() {
       {/* Bottom Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Scheduled Posts */}
-        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-6">
+        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg font-bold text-white">Publications planifiées</h2>
+            <h2 className="text-base sm:text-lg font-bold text-white">Publications planifiées</h2>
             <Link
               href="/dashboard/calendar"
-              className="text-xs text-violet-400 hover:text-violet-300 flex items-center gap-1"
+              className="text-xs text-violet-400 hover:text-violet-300 flex items-center gap-1 shrink-0"
             >
               Voir tout <ArrowRight size={12} />
             </Link>
           </div>
 
           {scheduledPosts.length === 0 ? (
-            <div className="p-8 text-center border border-dashed border-white/10 rounded-xl">
+            <div className="p-6 sm:p-8 text-center border border-dashed border-white/10 rounded-xl">
               <Clock size={32} className="text-slate-600 mx-auto mb-2" />
               <p className="text-sm text-slate-400">Aucune publication planifiée</p>
               <Link href="/dashboard/posts">
@@ -315,19 +319,25 @@ export default function DashboardPage() {
               {scheduledPosts.slice(0, 3).map((post) => (
                 <div
                   key={post.id}
-                  className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-all"
+                  className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-all"
                 >
-                  {post.platform && <PlatformIcon platform={post.platform} size={30} />}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white font-medium truncate">{post.title || post.content}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <Clock size={11} className="text-slate-500" />
-                      <span className="text-xs text-slate-500">
-                        {post.scheduledAt ? formatDateTime(post.scheduledAt) : "Non définie"}
-                      </span>
+                  <div className="flex items-center gap-3 min-w-0">
+                    {post.platform && (
+                      <div className="shrink-0">
+                        <PlatformIcon platform={post.platform} size={28} />
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <p className="text-xs sm:text-sm text-white font-medium truncate">{post.title || post.content}</p>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <Clock size={11} className="text-slate-500 shrink-0" />
+                        <span className="text-[11px] text-slate-500 truncate">
+                          {post.scheduledAt ? formatDateTime(post.scheduledAt) : "Non définie"}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-violet-500/20 text-violet-300">
+                  <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-medium bg-violet-500/20 text-violet-300 shrink-0">
                     Planifié
                   </span>
                 </div>
@@ -337,18 +347,18 @@ export default function DashboardPage() {
         </div>
 
         {/* AI Assistant Quick Generator */}
-        <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-900/20 to-indigo-900/20 p-6 flex flex-col justify-between">
+        <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-900/20 to-indigo-900/20 p-4 sm:p-6 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <Sparkles size={20} className="text-violet-400" />
-              <h2 className="text-lg font-bold text-white">Assistant IA SocialFlow</h2>
+              <Sparkles size={20} className="text-violet-400 shrink-0" />
+              <h2 className="text-base sm:text-lg font-bold text-white">Assistant IA SocialFlow</h2>
             </div>
-            <p className="text-sm text-slate-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               Besoin d&apos;idées virales ou d&apos;optimiser votre calendrier de publication ? L&apos;assistant IA analyse votre créneau et génère du contenu prêt à diffuser.
             </p>
           </div>
-          <div className="mt-6 flex gap-3">
-            <Link href="/dashboard/ai-assistant" className="flex-1">
+          <div className="mt-6">
+            <Link href="/dashboard/ai-assistant" className="block w-full">
               <Button className="w-full">
                 Ouvrir l&apos;assistant IA
               </Button>
