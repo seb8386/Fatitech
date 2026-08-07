@@ -115,25 +115,25 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
+      <div className="min-h-[60vh] flex items-center justify-center p-4">
         <div className="w-10 h-10 border-2 border-violet-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 sm:p-6 space-y-6 sm:space-y-8 overflow-x-hidden">
+    <div className="w-full max-w-full min-w-0 space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 min-w-0">
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-3xl font-black text-white truncate">
             {greeting},{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-indigo-400">
               {user?.firstName ?? "Créateur"}
             </span>{" "}
             👋
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-400 mt-1 truncate">
             Voici le résumé de vos performances réelles aujourd&apos;hui
           </p>
         </div>
@@ -147,7 +147,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 min-w-0">
         <StatCard
           title="Abonnés totaux"
           value={stats?.totalFollowers ?? 0}
@@ -194,9 +194,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 min-w-0">
         {/* Growth Chart */}
-        <div className="xl:col-span-2 rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6 min-w-0">
+        <div className="xl:col-span-2 rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6 min-w-0 max-w-full overflow-hidden">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-white">Croissance des abonnés</h2>
@@ -209,15 +209,15 @@ export default function DashboardPage() {
             <div className="h-56 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-xl p-4 sm:p-6 text-center">
               <Eye size={36} className="text-slate-600 mb-2" />
               <p className="text-slate-400 text-sm">Aucune donnée d&apos;analytique disponible</p>
-              <p className="text-xs text-slate-500 mt-1">Connectez votre compte TikTok pour synchroniser vos statistiques</p>
+              <p className="text-xs text-slate-500 mt-1">Connectez vos réseaux pour synchroniser vos statistiques</p>
               <Link href="/dashboard/accounts" className="mt-4">
                 <Button size="sm">Connecter un compte</Button>
               </Link>
             </div>
           ) : (
-            <div className="w-full h-[220px]">
+            <div className="w-full min-w-0 h-[220px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
                   <defs>
                     <linearGradient id="gradFollowers" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#7c3aed" stopOpacity={0.4} />
@@ -225,8 +225,8 @@ export default function DashboardPage() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                  <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} />
-                  <YAxis stroke="#64748b" tick={{ fontSize: 10 }} tickFormatter={formatNumber} />
+                  <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 9 }} />
+                  <YAxis stroke="#64748b" tick={{ fontSize: 9 }} tickFormatter={formatNumber} />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "#1e293b",
@@ -251,7 +251,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Platform breakdown */}
-        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6">
+        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6 min-w-0 max-w-full">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-base sm:text-lg font-bold text-white">Par plateforme</h2>
@@ -272,7 +272,7 @@ export default function DashboardPage() {
           ) : (
             <div className="space-y-3">
               {platformData.map((p) => (
-                <div key={p.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors">
+                <div key={p.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors min-w-0">
                   <div className="shrink-0">
                     <PlatformIcon platform={p.platform.toLowerCase()} size={32} />
                   </div>
@@ -291,9 +291,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Bottom Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-w-0">
         {/* Scheduled Posts */}
-        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6">
+        <div className="rounded-2xl border border-white/10 bg-slate-900/80 backdrop-blur-xl p-4 sm:p-6 min-w-0 max-w-full">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-base sm:text-lg font-bold text-white">Publications planifiées</h2>
             <Link
@@ -315,19 +315,19 @@ export default function DashboardPage() {
               </Link>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-3 min-w-0">
               {scheduledPosts.slice(0, 3).map((post) => (
                 <div
                   key={post.id}
-                  className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-all"
+                  className="flex items-center justify-between gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/10 transition-all min-w-0"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
                     {post.platform && (
                       <div className="shrink-0">
                         <PlatformIcon platform={post.platform} size={28} />
                       </div>
                     )}
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <p className="text-xs sm:text-sm text-white font-medium truncate">{post.title || post.content}</p>
                       <div className="flex items-center gap-1.5 mt-0.5">
                         <Clock size={11} className="text-slate-500 shrink-0" />
@@ -347,7 +347,7 @@ export default function DashboardPage() {
         </div>
 
         {/* AI Assistant Quick Generator */}
-        <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-900/20 to-indigo-900/20 p-4 sm:p-6 flex flex-col justify-between">
+        <div className="rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-900/20 to-indigo-900/20 p-4 sm:p-6 flex flex-col justify-between min-w-0 max-w-full">
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Sparkles size={20} className="text-violet-400 shrink-0" />
